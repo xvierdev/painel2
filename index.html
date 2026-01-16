@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Gestão Cluster - SJC e JI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#f4f4f4] min-h-screen font-sans">
+
+    <header class="bg-[#660099] text-white p-4 shadow-lg flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-black uppercase italic tracking-tighter">Painel de Gestão Cluster SJC e JI</h1>
+            <p class="text-xs font-bold opacity-80 uppercase italic">Visualização Local - REF: 14/01/2026</p>
+        </div>
+        <button onclick="exportarDashboard()" class="bg-white text-[#660099] px-6 py-2 rounded-sm font-black text-xs hover:bg-gray-100 shadow-md transition-all">
+            📸 EXPORTAR RELATÓRIO
+        </button>
+    </header>
+
+    <main class="p-4 space-y-6">
+        
+        <section class="grid grid-cols-1 xl:grid-cols-2 gap-4 bg-white p-4 rounded shadow-sm border border-gray-200">
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-[#0070c0] text-white uppercase italic">
+                            <th class="p-2 text-left w-36">ABILITY_SJ</th>
+                            <th class="p-2">Ocorrências</th><th class="p-2">Afetação</th><th class="p-2">SEM_MO</th>
+                            <th class="p-2">MO_SJC</th><th class="p-2">MOIN</th><th class="p-2">VIP</th><th class="p-2">AV</th>
+                        </tr>
+                    </thead>
+                    <tbody id="body-ability" class="font-bold text-gray-800"></tbody>
+                </table>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-[#0070c0] text-white uppercase italic">
+                            <th class="p-2 text-left w-36">TEL_JI</th>
+                            <th class="p-2">Ocorrências</th><th class="p-2">Afetação</th><th class="p-2">SEM_MO</th>
+                            <th class="p-2">MO_TEL</th><th class="p-2">MOIN</th><th class="p-2">VIP</th><th class="p-2">AV</th>
+                        </tr>
+                    </thead>
+                    <tbody id="body-tel" class="font-bold text-gray-800"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
+                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-xs italic">Litoral D-0</h3>
+                <div class="h-64 relative"><canvas id="donutLitoral"></canvas></div>
+            </div>
+            <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
+                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-xs italic">SJC D-0</h3>
+                <div class="h-64 relative"><canvas id="donutSJC"></canvas></div>
+            </div>
+            <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
+                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-xs italic">Jundiaí D-0</h3>
+                <div class="h-64 relative"><canvas id="donutJI"></canvas></div>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
+                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-xs italic">OCs Por AT - Litoral</h3>
+                <div class="h-48 relative"><canvas id="barAtLitoral"></canvas></div>
+            </div>
+            <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
+                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-xs italic">OCs Por AT - SJC</h3>
+                <div class="h-48 relative"><canvas id="barAtSJC"></canvas></div>
+            </div>
+            <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
+                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-xs italic">OCs Por AT - TEL JI</h3>
+                <div class="h-48 relative"><canvas id="barAtJI"></canvas></div>
+            </div>
+        </section>
+
+        <section class="bg-white p-4 rounded shadow border border-gray-200 overflow-x-auto">
+            <h2 class="font-black text-[#660099] uppercase text-xs mb-3 border-b pb-2 italic">Analítico > 24H</h2>
+            <table class="w-full text-[10px] border-collapse">
+                <thead class="bg-gray-50 text-gray-500 font-bold uppercase">
+                    <tr>
+                        <th class="p-2 text-left">OC</th><th class="p-2 text-left">Município</th><th class="p-2 text-left">AT</th>
+                        <th class="p-2 text-center text-red-600">Aging</th><th class="p-2 text-center">Afetação</th>
+                        <th class="p-2 text-left">Técnico</th>
+                    </tr>
+                </thead>
+                <tbody id="body-analitico"></tbody>
+            </table>
+        </section>
+
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div id="cards-vale" class="grid grid-cols-4 gap-1"></div>
+            <div id="cards-litoral" class="grid grid-cols-4 gap-1"></div>
+            <div id="cards-jundiai" class="grid grid-cols-4 gap-1"></div>
+        </section>
+
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
+                <h3 class="font-black text-[#0070c0] mb-4 uppercase text-[10px] italic">Projeção Mensal - Litoral</h3>
+                <div class="h-40 relative"><canvas id="trendLitoral"></canvas></div>
+            </div>
+            <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
+                <h3 class="font-black text-[#0070c0] mb-4 uppercase text-[10px] italic">Projeção Mensal - SJC</h3>
+                <div class="h-40 relative"><canvas id="trendSJC"></canvas></div>
+            </div>
+            <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
+                <h3 class="font-black text-[#0070c0] mb-4 uppercase text-[10px] italic">Projeção Mensal - Jundiaí</h3>
+                <div class="h-40 relative"><canvas id="trendJI"></canvas></div>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 pb-10">
+            <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
+                <h3 class="font-black text-[#0070c0] mb-4 uppercase text-[10px] italic">Tendência Afetação - Litoral</h3>
+                <div class="h-40 relative"><canvas id="afetTrendLitoral"></canvas></div>
+            </div>
+            <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
+                <h3 class="font-black text-[#0070c0] mb-4 uppercase text-[10px] italic">Tendência Afetação - SJC</h3>
+                <div class="h-40 relative"><canvas id="afetTrendSJC"></canvas></div>
+            </div>
+            <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
+                <h3 class="font-black text-[#0070c0] mb-4 uppercase text-[10px] italic">Tendência Afetação - Jundiaí</h3>
+                <div class="h-40 relative"><canvas id="afetTrendJI"></canvas></div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

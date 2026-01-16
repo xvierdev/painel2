@@ -1,0 +1,18 @@
+th, td { border: 1px solid #999 !important; font-size: 11px; }
+
+/* Data Bars */
+.bar-blue { background: linear-gradient(90deg, #bad9fb var(--p), transparent var(--p)); }
+.bar-green { background: linear-gradient(90deg, #c6efce var(--p), transparent var(--p)); }
+
+.row-total { background-color: #e9e9e9; font-weight: 900; border-top: 2px solid #333; }
+.value-zero { color: #ccc; font-weight: normal; }
+
+/* Cards KPI */
+.card-kpi { color: white; padding: 12px 2px; text-align: center; border-radius: 1px; min-height: 90px; display: flex; flex-direction: column; justify-content: center; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.2); }
+.c-label { font-size: 8px; font-weight: 800; text-transform: uppercase; margin-bottom: 2px; }
+.c-number { font-size: 26px; font-weight: 900; }
+
+.bg-vale { background-color: #0b3d61; }
+.bg-litoral-sky { background-color: #5da9e9; }
+.bg-jundiai-green { background-color: #0070c0; }
+.aging-hot { color: #d00; font-weight: 900; }
