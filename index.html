@@ -12,15 +12,20 @@
 </head>
 <body class="bg-[#f4f4f4] min-h-screen font-sans text-gray-900">
 
-    <header class="bg-[#660099] text-white p-4 shadow-lg flex justify-between items-center">
-        <div>
-            <h1 class="text-3xl font-black uppercase italic tracking-tighter">Painel de Gestão Cluster SJC e JI</h1>
-            <p class="text-sm font-bold opacity-90 uppercase italic tracking-wider">Visualização Otimizada - REF: 20/01/2026</p>
-        </div>
+   <header class="bg-[#660099] text-white p-4 shadow-lg flex justify-between items-center">
+    <div>
+        <h1 class="text-3xl font-black uppercase italic tracking-tighter">Painel de Gestão Cluster SJC e JI</h1>
+        <p id="header-status" class="text-sm font-bold opacity-80 uppercase italic tracking-wider">Aguardando Sincronização...</p>
+    </div>
+    <div class="flex gap-2">
+        <button onclick="initApp()" class="bg-[#0070c0] text-white px-6 py-2 rounded-sm font-black text-xs hover:bg-blue-700 shadow-md transition-all uppercase">
+            🔄 ATUALIZAR DADOS
+        </button>
         <button onclick="exportarDashboard()" class="bg-white text-[#660099] px-6 py-2 rounded-sm font-black text-xs hover:bg-gray-100 shadow-md transition-all uppercase">
             📸 Exportar Relatório
         </button>
-    </header>
+    </div>
+</header>
 
     <main class="p-4 space-y-6">
         
@@ -104,45 +109,45 @@
         <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
                 <h3 class="font-black text-[#0070c0] mb-4 uppercase text-xs italic">Projeção Mensal - Litoral</h3>
-                <div class="h-40 relative"><canvas id="trendLitoral"></canvas></div>
+                <div class="h-56 relative"><canvas id="trendLitoral"></canvas></div>
             </div>
             <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
                 <h3 class="font-black text-[#0070c0] mb-4 uppercase text-xs italic">Projeção Mensal - SJC</h3>
-                <div class="h-40 relative"><canvas id="trendSJC"></canvas></div>
+                <div class="h-56 relative"><canvas id="trendSJC"></canvas></div>
             </div>
             <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
                 <h3 class="font-black text-[#0070c0] mb-4 uppercase text-xs italic">Projeção Mensal - Jundiaí</h3>
-                <div class="h-40 relative"><canvas id="trendJI"></canvas></div>
+                <div class="h-56 relative"><canvas id="trendJI"></canvas></div>
             </div>
         </section>
 
         <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
                 <h3 class="font-black text-[#0070c0] mb-4 uppercase text-xs italic">Tendência Afetação - Litoral</h3>
-                <div class="h-40 relative"><canvas id="afetTrendLitoral"></canvas></div>
+                <div class="h-56 relative"><canvas id="afetTrendLitoral"></canvas></div>
             </div>
             <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
                 <h3 class="font-black text-[#0070c0] mb-4 uppercase text-xs italic">Tendência Afetação - SJC</h3>
-                <div class="h-40 relative"><canvas id="afetTrendSJC"></canvas></div>
+                <div class="h-56 relative"><canvas id="afetTrendSJC"></canvas></div>
             </div>
             <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
                 <h3 class="font-black text-[#0070c0] mb-4 uppercase text-xs italic">Tendência Afetação - Jundiaí</h3>
-                <div class="h-40 relative"><canvas id="afetTrendJI"></canvas></div>
+                <div class="h-56 relative"><canvas id="afetTrendJI"></canvas></div>
             </div>
         </section>
 
         <section class="space-y-6 pb-12">
             <div class="bg-white p-4 rounded shadow border border-gray-200">
                 <h3 class="font-black text-[#0070c0] mb-2 uppercase text-xs italic text-center">Diarizado Litoral - SLA Diário</h3>
-                <div class="h-40 relative"><canvas id="dailyLitoral"></canvas></div>
+                <div class="h-56 relative"><canvas id="dailyLitoral"></canvas></div>
             </div>
             <div class="bg-white p-4 rounded shadow border border-gray-200">
                 <h3 class="font-black text-[#0070c0] mb-2 uppercase text-xs italic text-center">Diarizado SJC - SLA Diário</h3>
-                <div class="h-40 relative"><canvas id="dailySJC"></canvas></div>
+                <div class="h-56 relative"><canvas id="dailySJC"></canvas></div>
             </div>
             <div class="bg-white p-4 rounded shadow border border-gray-200">
                 <h3 class="font-black text-[#0070c0] mb-2 uppercase text-xs italic text-center">Diarizado Jundiaí - SLA Diário</h3>
-                <div class="h-40 relative"><canvas id="dailyJI"></canvas></div>
+                <div class="h-56 relative"><canvas id="dailyJI"></canvas></div>
             </div>
         </section>
 

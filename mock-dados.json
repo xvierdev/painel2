@@ -1,0 +1,313 @@
+{
+    "table": {
+        "ability_sj": {
+            "menos_8h": {
+                "ocorrencias": 5,
+                "afetação": 65,
+                "sem_mo": 2,
+                "mo_sjc": 7,
+                "moin": 1,
+                "vip": 1,
+                "alto_valor": 1
+            },
+            "menos_24h": {
+                "ocorrencias": 8,
+                "afetação": 120,
+                "sem_mo": 3,
+                "mo_sjc": 9,
+                "moin": 2,
+                "vip": 2,
+                "alto_valor": 1
+            },
+            "acima_24h": {
+                "ocorrencias": 4,
+                "afetação": 90,
+                "sem_mo": 2,
+                "mo_sjc": 4,
+                "moin": 1,
+                "vip": 1,
+                "alto_valor": 1
+            }
+        },
+        "tel_ji": {
+            "menos_8h": {
+                "ocorrencias": 4,
+                "afetação": 50,
+                "sem_mo": 1,
+                "mo_sjc": 6,
+                "moin": 1,
+                "vip": 1,
+                "alto_valor": 0
+            },
+            "menos_24h": {
+                "ocorrencias": 7,
+                "afetação": 95,
+                "sem_mo": 2,
+                "mo_sjc": 8,
+                "moin": 2,
+                "vip": 2,
+                "alto_valor": 1
+            },
+            "acima_24h": {
+                "ocorrencias": 3,
+                "afetação": 70,
+                "sem_mo": 1,
+                "mo_sjc": 4,
+                "moin": 1,
+                "vip": 1,
+                "alto_valor": 1
+            }
+        }
+    },
+    "donuts": {
+        "litoral": {
+            "encerradas": 14,
+            "em_execucao": 9,
+            "pendentes": 5
+        },
+        "sjc": {
+            "encerradas": 12,
+            "em_execucao": 10,
+            "pendentes": 6
+        },
+        "jundiai": {
+            "encerradas": 11,
+            "em_execucao": 8,
+            "pendentes": 4
+        }
+    },
+    "bars_at": {
+        "litoral": {
+            "dados": [
+                { "at": "MG", "em_execucao": 4, "demanda": 3 },
+                { "at": "SP", "em_execucao": 3, "demanda": 2 },
+                { "at": "RJ", "em_execucao": 2, "demanda": 1 },
+                { "at": "ES", "em_execucao": 2, "demanda": 2 },
+                { "at": "PR", "em_execucao": 1, "demanda": 2 },
+                { "at": "SC", "em_execucao": 1, "demanda": 1 },
+                { "at": "BA", "em_execucao": 2, "demanda": 1 }
+            ]
+        },
+        "sjc": {
+            "dados": [
+                { "at": "MG", "em_execucao": 3, "demanda": 2 },
+                { "at": "SP", "em_execucao": 4, "demanda": 3 },
+                { "at": "RJ", "em_execucao": 2, "demanda": 3 },
+                { "at": "ES", "em_execucao": 1, "demanda": 2 },
+                { "at": "PR", "em_execucao": 2, "demanda": 1 },
+                { "at": "SC", "em_execucao": 1, "demanda": 1 },
+                { "at": "BA", "em_execucao": 1, "demanda": 2 }
+            ]
+        },
+        "jundiai": {
+            "dados": [
+                { "at": "MG", "em_execucao": 2, "demanda": 2 },
+                { "at": "SP", "em_execucao": 3, "demanda": 2 },
+                { "at": "RJ", "em_execucao": 2, "demanda": 2 },
+                { "at": "ES", "em_execucao": 1, "demanda": 1 },
+                { "at": "PR", "em_execucao": 2, "demanda": 1 },
+                { "at": "SC", "em_execucao": 1, "demanda": 1 },
+                { "at": "BA", "em_execucao": 1, "demanda": 1 }
+            ]
+        }
+    },
+    "analytics": {
+        "data": [
+            {
+                "id_ocorrencia": 941181,
+                "municipio": "CARAGUATATUBA",
+                "at": "MG",
+                "aging": "148h",
+                "afetacao": 120,
+                "tecnico": "GUSTAVO DE SOUZA"
+            },
+            {
+                "id_ocorrencia": 941182,
+                "municipio": "SÃO JOSÉ DOS CAMPOS",
+                "at": "SP",
+                "aging": "96h",
+                "afetacao": 90,
+                "tecnico": "ANA PAULA"
+            },
+            {
+                "id_ocorrencia": 941183,
+                "municipio": "JUNDIAÍ",
+                "at": "RJ",
+                "aging": "72h",
+                "afetacao": 75,
+                "tecnico": "CARLOS ALBERTO"
+            },
+            {
+                "id_ocorrencia": 941184,
+                "municipio": "TAUBATÉ",
+                "at": "ES",
+                "aging": "51h",
+                "afetacao": 48,
+                "tecnico": "MATEUS LIMA"
+            },
+            {
+                "id_ocorrencia": 941185,
+                "municipio": "CAMPINAS",
+                "at": "PR",
+                "aging": "33h",
+                "afetacao": 40,
+                "tecnico": "FERNANDA COSTA"
+            }
+        ]
+    },
+    "cards": {
+        "litoral": {
+            "prazo_d-1": "88%",
+            "ocs_fora_prazo": 3,
+            "ocs_dentro_prazo": 19,
+            "total_ocs": 22
+        },
+        "sjc": {
+            "prazo_d-1": "91%",
+            "ocs_fora_prazo": 2,
+            "ocs_dentro_prazo": 17,
+            "total_ocs": 19
+        },
+        "jundiai": {
+            "prazo_d-1": "84%",
+            "ocs_fora_prazo": 4,
+            "ocs_dentro_prazo": 14,
+            "total_ocs": 18
+        }
+    },
+    "projecao_ocorrencias": {
+        "litoral": {
+            "meses": {
+                "atual-5": "set/25",
+                "atual-4": "out/25",
+                "atual-3": "nov/25",
+                "atual-2": "dez/25",
+                "atual-1": "jan/26",
+                "atual-0": "fev/26"
+            },
+            "atual-5": 110,
+            "atual-4": 120,
+            "atual-3": 130,
+            "atual-2": 140,
+            "atual-1": 150,
+            "atual-0": 155,
+            "projecao": 170
+        },
+        "sjc": {
+            "meses": {
+                "atual-5": "set/25",
+                "atual-4": "out/25",
+                "atual-3": "nov/25",
+                "atual-2": "dez/25",
+                "atual-1": "jan/26",
+                "atual-0": "fev/26"
+            },
+            "atual-5": 90,
+            "atual-4": 100,
+            "atual-3": 110,
+            "atual-2": 120,
+            "atual-1": 130,
+            "atual-0": 138,
+            "projecao": 150
+        },
+        "jundiai": {
+            "meses": {
+                "atual-5": "set/25",
+                "atual-4": "out/25",
+                "atual-3": "nov/25",
+                "atual-2": "dez/25",
+                "atual-1": "jan/26",
+                "atual-0": "fev/26"
+            },
+            "atual-5": 80,
+            "atual-4": 90,
+            "atual-3": 100,
+            "atual-2": 110,
+            "atual-1": 120,
+            "atual-0": 128,
+            "projecao": 140
+        }
+    },
+    "projecao_afetacao": {
+        "sjc": {
+            "meses": {
+                "atual-5": "set/25",
+                "atual-4": "out/25",
+                "atual-3": "nov/25",
+                "atual-2": "dez/25",
+                "atual-1": "jan/26",
+                "atual-0": "fev/26"
+            },
+            "atual-5": 1100,
+            "atual-4": 1200,
+            "atual-3": 1300,
+            "atual-2": 1400,
+            "atual-1": 1500,
+            "atual-0": 1580,
+            "projecao": 1700
+        },
+        "litoral": {
+            "meses": {
+                "atual-5": "set/25",
+                "atual-4": "out/25",
+                "atual-3": "nov/25",
+                "atual-2": "dez/25",
+                "atual-1": "jan/26",
+                "atual-0": "fev/26"
+            },
+            "atual-5": 900,
+            "atual-4": 1000,
+            "atual-3": 1100,
+            "atual-2": 1200,
+            "atual-1": 1300,
+            "atual-0": 1380,
+            "projecao": 1500
+        },
+        "jundiai": {
+            "meses": {
+                "atual-5": "set/25",
+                "atual-4": "out/25",
+                "atual-3": "nov/25",
+                "atual-2": "dez/25",
+                "atual-1": "jan/26",
+                "atual-0": "fev/26"
+            },
+            "atual-5": 800,
+            "atual-4": 900,
+            "atual-3": 1000,
+            "atual-2": 1100,
+            "atual-1": 1200,
+            "atual-0": 1270,
+            "projecao": 1400
+        }
+    },
+    "diariazado": {
+        "litoral": {
+            "d-0": { "data": "16/02", "no_prazo": 12, "fora_prazo": 2, "total": 14 },
+            "d-1": { "data": "15/02", "no_prazo": 11, "fora_prazo": 3, "total": 14 },
+            "d-2": { "data": "14/02", "no_prazo": 10, "fora_prazo": 3, "total": 13 },
+            "d-3": { "data": "13/02", "no_prazo": 9, "fora_prazo": 2, "total": 11 },
+            "d-4": { "data": "12/02", "no_prazo": 8, "fora_prazo": 2, "total": 10 },
+            "d-5": { "data": "11/02", "no_prazo": 7, "fora_prazo": 1, "total": 8 },
+            "d-6": { "data": "10/02", "no_prazo": 6, "fora_prazo": 1, "total": 7 }
+        },
+        "sjc": {
+            "d-0": { "data": "16/02", "no_prazo": 11, "fora_prazo": 2, "total": 13 },
+            "d-1": { "data": "15/02", "no_prazo": 10, "fora_prazo": 2, "total": 12 },
+            "d-2": { "data": "14/02", "no_prazo": 9, "fora_prazo": 2, "total": 11 },
+            "d-3": { "data": "13/02", "no_prazo": 8, "fora_prazo": 2, "total": 10 },
+            "d-4": { "data": "12/02", "no_prazo": 7, "fora_prazo": 1, "total": 8 },
+            "d-5": { "data": "11/02", "no_prazo": 6, "fora_prazo": 1, "total": 7 },
+            "d-6": { "data": "10/02", "no_prazo": 5, "fora_prazo": 1, "total": 6 }
+        },
+        "jundiai": {
+            "d-0": { "data": "16/02", "no_prazo": 10, "fora_prazo": 2, "total": 12 },
+            "d-1": { "data": "15/02", "no_prazo": 9, "fora_prazo": 2, "total": 11 },
+            "d-2": { "data": "14/02", "no_prazo": 8, "fora_prazo": 2, "total": 10 },
+            "d-3": { "data": "13/02", "no_prazo": 7, "fora_prazo": 2, "total": 9 },
+            "d-4": { "data": "12/02", "no_prazo": 6, "fora_prazo": 1, "total": 7 },
+            "d-5": { "data": "11/02", "no_prazo": 5, "fora_prazo": 1, "total": 6 },
+            "d-6": { "data": "10/02", "no_prazo": 4, "fora_prazo": 1, "total": 5 }
+        }
+    }
+}
