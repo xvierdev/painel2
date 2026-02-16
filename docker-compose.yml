@@ -1,0 +1,32 @@
+services:
+  painel2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: painel2-web
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - PANEL_API_UPSTREAM=${PANEL_API_UPSTREAM}
+      - PANEL_API_KEY=${PANEL_API_KEY}
+      - NGINX_ENVSUBST_FILTER=PANEL_API_UPSTREAM|PANEL_API_KEY
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: painel2-cloudflared
+    profiles: ["quick"]
+    restart: unless-stopped
+    depends_on:
+      - painel2
+    command: tunnel --no-autoupdate --url http://painel2:8080
+
+  cloudflared-token:
+    image: cloudflare/cloudflared:latest
+    container_name: painel2-cloudflared-token
+    profiles: ["token"]
+    restart: unless-stopped
+    depends_on:
+      - painel2
+    network_mode: "service:painel2"
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARED_TUNNEL_TOKEN}

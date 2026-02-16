@@ -1,8 +1,7 @@
 // Registro do plugin de rótulos de dados
 Chart.register(ChartDataLabels);
 
-const API_URL = 'http://localhost:8081/api/painel2';
-const API_KEY = 'a6e41c2a5f544c1ca9dbf6e9bfc1e8e5';
+const API_URL = '/api/painel2';
 
 // Horário atual para cálculo de Aging (10/02/2026 09:40)
 const REF_TIME = new Date("2026-02-10T09:40:00");
@@ -41,7 +40,6 @@ async function initApp() {
         const response = await fetch(API_URL, {
             method: 'GET',
             headers: {
-                'X-API-Key': API_KEY,
                 'Content-Type': 'application/json'
             }
         });
