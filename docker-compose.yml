@@ -11,6 +11,9 @@ services:
       - PANEL_API_UPSTREAM=${PANEL_API_UPSTREAM}
       - PANEL_API_KEY=${PANEL_API_KEY}
       - NGINX_ENVSUBST_FILTER=PANEL_API_UPSTREAM|PANEL_API_KEY
+    networks:
+      - default
+      - sigma-network
 
   cloudflared:
     image: cloudflare/cloudflared:latest
@@ -19,7 +22,7 @@ services:
     restart: unless-stopped
     depends_on:
       - painel2
-    command: tunnel --no-autoupdate --url http://painel2:8080
+    command: tunnel --no-autoupdate --protocol http2 --url http://painel2:8080
 
   cloudflared-token:
     image: cloudflare/cloudflared:latest
@@ -29,4 +32,9 @@ services:
     depends_on:
       - painel2
     network_mode: "service:painel2"
-    command: tunnel --no-autoupdate run --token ${CLOUDFLARED_TUNNEL_TOKEN}
+    command: tunnel --no-autoupdate --protocol http2 run --token ${CLOUDFLARED_TUNNEL_TOKEN}
+
+networks:
+  sigma-network:
+    external: true
+    name: sigma-network

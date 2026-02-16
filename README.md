@@ -7,6 +7,12 @@ Este diretório possui configuração para:
 
 ## Subir com Quick Tunnel (URL temporária)
 
+Pré-requisito: a rede Docker externa `sigma-network` deve existir (usada para comunicação com `core-agent-api`).
+
+```bash
+docker network create sigma-network || true
+```
+
 ```bash
 cd painel2
 docker compose --profile quick up -d --build
@@ -27,7 +33,7 @@ cp .env.example .env
 
 - `CLOUDFLARED_TUNNEL_TOKEN`
 - `PANEL_API_KEY`
-- (se necessário) `PANEL_API_UPSTREAM`
+- (se necessário) `PANEL_API_UPSTREAM` (padrão recomendado: `http://core-agent-api:8080`)
 
 3. Suba os serviços:
 
