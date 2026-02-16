@@ -29,3 +29,45 @@ th, td { border: 1px solid #999 !important; }
 .bg-litoral-sky { background-color: #5da9e9; }
 .bg-jundiai-green { background-color: #0070c0; }
 .aging-hot { color: #d00; font-weight: 900; }
+
+.table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-scroll table {
+    width: 100%;
+}
+
+.dashboard-table {
+    min-width: 760px;
+}
+
+.analytic-table {
+    min-width: 700px;
+}
+
+.dashboard-table th,
+.dashboard-table td,
+.analytic-table th,
+.analytic-table td {
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .dashboard-table {
+        min-width: 680px;
+    }
+
+    .analytic-table {
+        min-width: 620px;
+    }
+
+    .dashboard-table th,
+    .dashboard-table td,
+    .analytic-table th,
+    .analytic-table td {
+        font-size: 10px;
+        padding: 4px 3px !important;
+    }
+}

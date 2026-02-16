@@ -2,6 +2,19 @@
 Chart.register(ChartDataLabels);
 
 const API_URL = '/api/painel2';
+const AUTO_REFRESH_MS = 30000;
+const REQUEST_TIMEOUT_MS = 15000;
+const CHART_CANVAS_IDS = [
+    'donutLitoral', 'donutSJC', 'donutJI',
+    'barAtLitoral', 'barAtSJC', 'barAtJI',
+    'trendLitoral', 'trendSJC', 'trendJI',
+    'afetTrendLitoral', 'afetTrendSJC', 'afetTrendJI',
+    'dailyLitoral', 'dailySJC', 'dailyJI'
+];
+
+let isRefreshing = false;
+let pendingRefresh = false;
+let autoRefreshTimer = null;
 
 // Horário atual para cálculo de Aging (10/02/2026 09:40)
 const REF_TIME = new Date("2026-02-10T09:40:00");
@@ -27,18 +40,98 @@ const HISTORICAL_DATA = {
     }
 };
 
-document.addEventListener('DOMContentLoaded', () => initApp());
+document.addEventListener('DOMContentLoaded', () => {
+    bindActions();
+    initApp('initial');
+    setupAutoRefresh();
+});
+
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+        requestRefresh('resume');
+    }
+});
+
+function setupAutoRefresh() {
+    if (autoRefreshTimer) {
+        clearInterval(autoRefreshTimer);
+    }
+
+    autoRefreshTimer = setInterval(() => {
+        requestRefresh('auto');
+    }, AUTO_REFRESH_MS);
+}
+
+function bindActions() {
+    const refreshButton = document.getElementById('btn-refresh-data');
+    if (refreshButton) {
+        refreshButton.addEventListener('click', () => requestRefresh('manual'));
+    }
+}
+
+function requestRefresh(source = 'manual') {
+    if (isRefreshing) {
+        pendingRefresh = true;
+        const statusText = document.getElementById('header-status');
+        if (statusText) statusText.innerText = 'ATUALIZAÇÃO EM FILA...';
+        return;
+    }
+
+    initApp(source);
+}
+
+window.requestRefresh = requestRefresh;
+window.initApp = initApp;
+
+async function fetchWithTimeout(url, options = {}, timeoutMs = REQUEST_TIMEOUT_MS) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+        return await fetch(url, {
+            ...options,
+            signal: controller.signal
+        });
+    } finally {
+        clearTimeout(timeoutId);
+    }
+}
+
+function destroyAllCharts() {
+    CHART_CANVAS_IDS.forEach((canvasId) => {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const chart = Chart.getChart(canvas);
+        if (chart) chart.destroy();
+    });
+}
+
+function setRefreshState(loading) {
+    const updateButton = document.getElementById('btn-refresh-data');
+    if (!updateButton) return;
+
+    updateButton.disabled = loading;
+    updateButton.classList.toggle('opacity-60', loading);
+    updateButton.classList.toggle('cursor-not-allowed', loading);
+}
 
 /**
  * Busca dados da API com tratamento de erro detalhado
  */
-async function initApp() {
+async function initApp(source = 'manual') {
+    if (isRefreshing) return;
+
+    isRefreshing = true;
+    setRefreshState(true);
+
     const statusText = document.getElementById('header-status');
     try {
         if (statusText) statusText.innerText = "Conectando à API...";
 
-        const response = await fetch(API_URL, {
+        const apiRequestUrl = `${API_URL}?_ts=${Date.now()}`;
+        const response = await fetchWithTimeout(apiRequestUrl, {
             method: 'GET',
+            cache: 'no-store',
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -51,11 +144,11 @@ async function initApp() {
         const processed = processNewJson(data);
         renderDashboard(processed);
 
-        if (statusText) statusText.innerText = `CONECTADO API REAL - ATUALIZADO ÀS ${new Date().toLocaleTimeString()}`;
+        if (statusText) statusText.innerText = `ATUALIZADO ÀS ${new Date().toLocaleTimeString()}`;
     } catch (err) {
         console.error("ERRO NA API REAL, ativando fallback mock:", err);
         try {
-            const fallback = await fetch('mock-dados.json');
+            const fallback = await fetchWithTimeout(`mock-dados.json?_ts=${Date.now()}`, { cache: 'no-store' });
             if (!fallback.ok) throw new Error(`HTTP Error: ${fallback.status}`);
             const mockData = await fallback.json();
             const processed = processNewJson(mockData);
@@ -64,6 +157,14 @@ async function initApp() {
         } catch (mockErr) {
             console.error("ERRO CRÍTICO AO CARREGAR MOCK:", mockErr);
             if (statusText) statusText.innerText = "ERRO - API E MOCK INDISPONÍVEIS";
+        }
+    } finally {
+        isRefreshing = false;
+        setRefreshState(false);
+
+        if (pendingRefresh) {
+            pendingRefresh = false;
+            setTimeout(() => requestRefresh('queued'), 0);
         }
     }
 }
@@ -235,13 +336,16 @@ function processNewJson(data) {
  * Funções de Renderização Otimizadas
  */
 function renderDashboard(data) {
+    destroyAllCharts();
+
     // Tabelas (Ability_SJ e Tel_JI)
     const renderT = (id, d) => {
+        const percent = (value, total) => (total > 0 ? ((value / total) * 100) : 0);
         document.getElementById(id).innerHTML = d.rows.map(r => `
             <tr class="text-center text-[12px]">
                 <td class="p-3 text-left bg-gray-50 font-bold border-r-2">${r.l}</td>
-                <td class="bar-blue" style="--p:${(r.o/d.total.o)*100}%">${r.o}</td>
-                <td class="bar-blue" style="--p:${(r.a/d.total.a)*100}%">${r.a}</td>
+                <td class="bar-blue" style="--p:${percent(r.o, d.total.o)}%">${r.o}</td>
+                <td class="bar-blue" style="--p:${percent(r.a, d.total.a)}%">${r.a}</td>
                 <td>${r.s}</td><td>${r.m}</td><td>${r.i}</td><td>${r.v}</td><td>${r.av}</td>
             </tr>`).join('') +
             `<tr class="row-total text-center text-[13px]">
@@ -300,10 +404,59 @@ function renderAtCharts(d) {
     chartMap.forEach(({ key, canvasId }) => {
         const canvas = document.getElementById(canvasId);
         if (!canvas || !d[key]) return;
+
+        const execValues = d[key].map(i => i.exec);
+        const demValues = d[key].map(i => i.dem);
+        const maxValue = Math.max(...execValues, ...demValues, 0);
+        const yMax = maxValue > 0 ? Math.ceil(maxValue * 1.3) : 1;
+        const barLabelOptions = {
+            display: true,
+            formatter: (v) => `${v}`,
+            anchor: 'end',
+            align: 'top',
+            offset: 4,
+            clamp: false,
+            clip: false,
+            color: '#1f2937',
+            font: { size: 10, weight: 'bold' }
+        };
+
         new Chart(canvas, {
             type: 'bar',
-            data: { labels: d[key].map(i => i.at), datasets: [{ label: 'EXECUÇÃO', data: d[key].map(i => i.exec), backgroundColor: '#0070c0' }, { label: 'DEMANDA', data: d[key].map(i => i.dem), backgroundColor: '#ed7d31' }] },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 9 } } }, datalabels: { anchor: 'end', align: 'top', font: { size: 10, weight: 'bold' } } }, scales: { y: { display: false }, x: { grid: { display: false } } } }
+            data: {
+                labels: d[key].map(i => i.at),
+                datasets: [
+                    {
+                        label: 'EXECUÇÃO',
+                        data: d[key].map(i => i.exec),
+                        backgroundColor: '#0070c0',
+                        datalabels: barLabelOptions
+                    },
+                    {
+                        label: 'DEMANDA',
+                        data: d[key].map(i => i.dem),
+                        backgroundColor: '#ed7d31',
+                        datalabels: barLabelOptions
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                layout: { padding: { top: 24 } },
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { size: 9 } } },
+                    datalabels: barLabelOptions
+                },
+                scales: {
+                    y: {
+                        display: false,
+                        beginAtZero: true,
+                        max: yMax
+                    },
+                    x: { grid: { display: false } }
+                }
+            }
         });
     });
 }

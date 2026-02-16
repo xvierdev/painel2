@@ -17,8 +17,8 @@
         <h1 class="text-3xl font-black uppercase italic tracking-tighter">Painel de Gestão Cluster SJC e JI</h1>
         <p id="header-status" class="text-sm font-bold opacity-80 uppercase italic tracking-wider">Aguardando Sincronização...</p>
     </div>
-    <div class="flex gap-2">
-        <button onclick="initApp()" class="bg-[#0070c0] text-white px-6 py-2 rounded-sm font-black text-xs hover:bg-blue-700 shadow-md transition-all uppercase">
+    <div class="flex gap-2 flex-wrap justify-end">
+        <button id="btn-refresh-data" onclick="window.requestRefresh && window.requestRefresh('manual')" class="bg-[#0070c0] text-white px-6 py-2 rounded-sm font-black text-xs hover:bg-blue-700 shadow-md transition-all uppercase">
             🔄 ATUALIZAR DADOS
         </button>
         <button onclick="exportarDashboard()" class="bg-white text-[#660099] px-6 py-2 rounded-sm font-black text-xs hover:bg-gray-100 shadow-md transition-all uppercase">
@@ -30,8 +30,8 @@
     <main class="p-4 space-y-6">
         
         <section class="grid grid-cols-1 xl:grid-cols-2 gap-4 bg-white p-4 rounded shadow-sm border border-gray-200">
-            <div class="overflow-x-auto">
-                <table class="w-full border-collapse">
+            <div class="overflow-x-auto table-scroll">
+                <table class="w-full border-collapse dashboard-table">
                     <thead>
                         <tr class="bg-[#0070c0] text-white uppercase italic text-[12px]">
                             <th class="p-3 text-left w-40">ABILITY_SJ</th>
@@ -42,8 +42,8 @@
                     <tbody id="body-ability" class="font-bold text-[12px]"></tbody>
                 </table>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full border-collapse">
+            <div class="overflow-x-auto table-scroll">
+                <table class="w-full border-collapse dashboard-table">
                     <thead>
                         <tr class="bg-[#0070c0] text-white uppercase italic text-[12px]">
                             <th class="p-3 text-left w-40">TEL_JI</th>
@@ -86,9 +86,9 @@
             </div>
         </section>
 
-        <section class="bg-white p-4 rounded shadow border border-gray-200 overflow-x-auto">
+        <section class="bg-white p-4 rounded shadow border border-gray-200 overflow-x-auto table-scroll">
             <h2 class="font-black text-[#660099] uppercase text-sm mb-3 border-b-2 pb-2 italic">Analítico > 24H</h2>
-            <table class="w-full text-[12px] border-collapse">
+            <table class="w-full text-[12px] border-collapse analytic-table">
                 <thead class="bg-gray-50 text-gray-600 font-black uppercase">
                     <tr class="border-b-2 border-gray-100">
                         <th class="p-3 text-left">OC</th><th class="p-3 text-left">Município</th><th class="p-3 text-left">AT</th>
@@ -101,9 +101,18 @@
         </section>
 
         <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div id="cards-vale" class="grid grid-cols-4 gap-1"></div>
-            <div id="cards-litoral" class="grid grid-cols-4 gap-1"></div>
-            <div id="cards-jundiai" class="grid grid-cols-4 gap-1"></div>
+            <div>
+                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-xs italic text-center">Litoral</h3>
+                <div id="cards-vale" class="grid grid-cols-4 gap-1"></div>
+            </div>
+            <div>
+                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-xs italic text-center">Vale</h3>
+                <div id="cards-litoral" class="grid grid-cols-4 gap-1"></div>
+            </div>
+            <div>
+                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-xs italic text-center">Jundiaí</h3>
+                <div id="cards-jundiai" class="grid grid-cols-4 gap-1"></div>
+            </div>
         </section>
 
         <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -153,6 +162,6 @@
 
     </main>
 
-    <script src="js/app.js"></script>
+    <script src="js/app.js?v=20260216-2"></script>
 </body>
 </html>
