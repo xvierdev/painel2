@@ -384,10 +384,10 @@ function renderDonuts(d) {
         new Chart(ctx, {
             type: 'doughnut',
             data: { labels: ['ENCERRADAS', 'EM EXECUÇÃO', 'PENDENTE'], datasets: [{ data: [s.enc, s.and, s.seq], backgroundColor: ['#28a745', s.color, '#ed7d31'], borderWidth: 1 }] },
-            options: { cutout: '65%', maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { size: 10, weight: 'bold' } } }, datalabels: { color: '#fff', font: { weight: 'bold', size: 12 }, formatter: v => v > 0 ? v : '' } } },
+            options: { cutout: '65%', maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { size: 13, weight: 'bold' } } }, datalabels: { color: '#fff', font: { weight: 'bold', size: 18 }, formatter: v => v > 0 ? v : '' } } },
             plugins: [{ id: 'ct', afterDraw: c => {
                 const { ctx, chartArea: { top, bottom, left, right } } = c;
-                ctx.save(); ctx.font = "bold 2rem sans-serif"; ctx.fillStyle = "#333"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+                ctx.save(); ctx.font = "bold 3rem sans-serif"; ctx.fillStyle = "#333"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
                 ctx.fillText(tot, (left+right)/2, (top+bottom)/2-5); ctx.restore();
             }}]
         });
@@ -418,7 +418,7 @@ function renderAtCharts(d) {
             clamp: false,
             clip: false,
             color: '#1f2937',
-            font: { size: 10, weight: 'bold' }
+            font: { size: 15, weight: 'bold' }
         };
 
         new Chart(canvas, {
@@ -445,7 +445,7 @@ function renderAtCharts(d) {
                 maintainAspectRatio: false,
                 layout: { padding: { top: 24 } },
                 plugins: {
-                    legend: { position: 'bottom', labels: { font: { size: 9 } } },
+                    legend: { position: 'bottom', labels: { font: { size: 12 } } },
                     datalabels: barLabelOptions
                 },
                 scales: {
@@ -533,7 +533,7 @@ function renderTrends(hist, meta, prefix) {
             },
             options: {
                 maintainAspectRatio: false,
-                layout: { padding: { top: 18 } },
+                layout: { padding: { top: 30 } },
                 plugins: {
                     legend: { display: false },
                     datalabels: { display: false }

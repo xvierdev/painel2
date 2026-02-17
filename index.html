@@ -29,12 +29,12 @@
 
     <main class="p-4 space-y-6">
         
-        <section class="grid grid-cols-1 xl:grid-cols-2 gap-4 bg-white p-4 rounded shadow-sm border border-gray-200">
+        <section id="main-tables-section" class="main-tables-grid gap-4 bg-white p-4 rounded shadow-sm border border-gray-200">
             <div class="overflow-x-auto table-scroll">
                 <table class="w-full border-collapse dashboard-table">
                     <thead>
                         <tr class="bg-[#0070c0] text-white uppercase italic text-[12px]">
-                            <th class="p-3 text-left w-40">ABILITY_SJ</th>
+                            <th class="p-3 text-left">ABILITY_SJ</th>
                             <th class="p-2">Ocorrências</th><th class="p-2">Afetação</th><th class="p-2">SEM_MO</th>
                             <th class="p-2">MO_SJC</th><th class="p-2">MOIN</th><th class="p-2">VIP</th><th class="p-2">AV</th>
                         </tr>
@@ -42,11 +42,11 @@
                     <tbody id="body-ability" class="font-bold text-[12px]"></tbody>
                 </table>
             </div>
-            <div class="overflow-x-auto table-scroll">
+            <div class="overflow-x-auto table-scroll mt-4">
                 <table class="w-full border-collapse dashboard-table">
                     <thead>
                         <tr class="bg-[#0070c0] text-white uppercase italic text-[12px]">
-                            <th class="p-3 text-left w-40">TEL_JI</th>
+                            <th class="p-3 text-left">TEL_JI</th>
                             <th class="p-2">Ocorrências</th><th class="p-2">Afetação</th><th class="p-2">SEM_MO</th>
                             <th class="p-2">MO_TEL</th><th class="p-2">MOIN</th><th class="p-2">VIP</th><th class="p-2">AV</th>
                         </tr>
@@ -58,30 +58,30 @@
 
         <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
-                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-sm italic">Litoral D-0</h3>
+                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-lg italic">Litoral D-0</h3>
                 <div class="h-64 relative"><canvas id="donutLitoral"></canvas></div>
             </div>
             <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
-                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-sm italic">SJC D-0</h3>
+                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-lg italic">SJC D-0</h3>
                 <div class="h-64 relative"><canvas id="donutSJC"></canvas></div>
             </div>
             <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
-                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-sm italic">Jundiaí D-0</h3>
+                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-lg italic">Jundiaí D-0</h3>
                 <div class="h-64 relative"><canvas id="donutJI"></canvas></div>
             </div>
         </section>
 
         <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
-                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-xs italic">OCs Por AT - Litoral</h3>
+                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-sm italic">OCs Por AT - Litoral</h3>
                 <div class="h-48 relative"><canvas id="barAtLitoral"></canvas></div>
             </div>
             <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
-                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-xs italic">OCs Por AT - SJC</h3>
+                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-sm italic">OCs Por AT - SJC</h3>
                 <div class="h-48 relative"><canvas id="barAtSJC"></canvas></div>
             </div>
             <div class="bg-white p-4 rounded shadow border border-gray-200 text-center">
-                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-xs italic">OCs Por AT - TEL JI</h3>
+                <h3 class="font-black text-[#0070c0] mb-2 uppercase text-sm italic">OCs Por AT - TEL JI</h3>
                 <div class="h-48 relative"><canvas id="barAtJI"></canvas></div>
             </div>
         </section>
@@ -91,7 +91,7 @@
             <table class="w-full text-[12px] border-collapse analytic-table">
                 <thead class="bg-gray-50 text-gray-600 font-black uppercase">
                     <tr class="border-b-2 border-gray-100">
-                        <th class="p-3 text-left">OC</th><th class="p-3 text-left">Município</th><th class="p-3 text-left">AT</th>
+                        <th class="p-3 text-left">OC</th><th class="p-3 text-left">Município</th><th class="p-3 text-center">AT</th>
                         <th class="p-3 text-center text-red-600">Aging</th><th class="p-3 text-center">Afetação</th>
                         <th class="p-3 text-left">Técnico</th>
                     </tr>

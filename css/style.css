@@ -35,32 +35,61 @@ th, td { border: 1px solid #999 !important; }
     -webkit-overflow-scrolling: touch;
 }
 
+.main-tables-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 1rem;
+    column-gap: 1rem;
+}
+
+.main-tables-grid > .table-scroll + .table-scroll {
+    margin-top: 0.5rem;
+}
+
+#main-tables-section .table-scroll {
+    overflow-x: hidden;
+}
+
+@media (min-width: 1024px) {
+    .main-tables-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .main-tables-grid > .table-scroll + .table-scroll {
+        margin-top: 0;
+    }
+}
+
 .table-scroll table {
     width: 100%;
+    table-layout: auto;
 }
 
 .dashboard-table {
-    min-width: 760px;
+    table-layout: auto;
+    width: 100%;
 }
 
 .analytic-table {
-    min-width: 700px;
+    table-layout: auto;
+    width: 100%;
 }
 
 .dashboard-table th,
 .dashboard-table td,
 .analytic-table th,
 .analytic-table td {
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 @media (max-width: 768px) {
-    .dashboard-table {
-        min-width: 680px;
-    }
-
-    .analytic-table {
-        min-width: 620px;
+    .dashboard-table, .analytic-table {
+        min-width: auto !important;
+        width: 100%;
+        table-layout: auto;
     }
 
     .dashboard-table th,
@@ -68,6 +97,32 @@ th, td { border: 1px solid #999 !important; }
     .analytic-table th,
     .analytic-table td {
         font-size: 10px;
-        padding: 4px 3px !important;
+        padding: 4px 1px !important;
+    }
+    .dashboard-table th{
+        white-space: normal !important;
+        vertical-align: bottom;
+        overflow-wrap: break-word;
+    }
+    .dashboard-table td {
+        white-space: normal !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .dashboard-table th:first-child,
+    .dashboard-table td:first-child {
+        width: 160px;
+    }
+
+    .analytic-table th:nth-child(2),
+    .analytic-table td:nth-child(2) {
+        width: 192px;
+    }
+
+    .analytic-table th:nth-child(3),
+    .analytic-table td:nth-child(3) {
+        width: 80px;
+        text-align: center;
     }
 }
