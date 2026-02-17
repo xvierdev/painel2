@@ -18,7 +18,7 @@ services:
   cloudflared:
     image: cloudflare/cloudflared:latest
     container_name: painel2-cloudflared
-    profiles: ["quick"]
+    profiles: ["cloudflared-quick"]
     restart: unless-stopped
     depends_on:
       - painel2
@@ -27,7 +27,7 @@ services:
   cloudflared-token:
     image: cloudflare/cloudflared:latest
     container_name: painel2-cloudflared-token
-    profiles: ["token"]
+    profiles: ["cloudflared"]
     restart: unless-stopped
     depends_on:
       - painel2
