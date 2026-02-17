@@ -384,7 +384,7 @@ function renderDonuts(d) {
         new Chart(ctx, {
             type: 'doughnut',
             data: { labels: ['ENCERRADAS', 'EM EXECUÇÃO', 'PENDENTE'], datasets: [{ data: [s.enc, s.and, s.seq], backgroundColor: ['#28a745', s.color, '#ed7d31'], borderWidth: 1 }] },
-            options: { cutout: '65%', maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { size: 13, weight: 'bold' } } }, datalabels: { color: '#fff', font: { weight: 'bold', size: 18 }, formatter: v => v > 0 ? v : '' } } },
+            options: { cutout: '65%', maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { size: 13, weight: 'bold' } } }, datalabels: { color: '#fff', font: { weight: 'bold', size: 23 }, formatter: v => v > 0 ? v : '' } } },
             plugins: [{ id: 'ct', afterDraw: c => {
                 const { ctx, chartArea: { top, bottom, left, right } } = c;
                 ctx.save(); ctx.font = "bold 3rem sans-serif"; ctx.fillStyle = "#333"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
