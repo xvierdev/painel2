@@ -15,6 +15,7 @@ const CHART_CANVAS_IDS = [
 let isRefreshing = false;
 let pendingRefresh = false;
 let autoRefreshTimer = null;
+let tableLayoutRaf = null;
 
 // Horário atual para cálculo de Aging (10/02/2026 09:40)
 const REF_TIME = new Date("2026-02-10T09:40:00");
@@ -67,6 +68,42 @@ function bindActions() {
     if (refreshButton) {
         refreshButton.addEventListener('click', () => requestRefresh('manual'));
     }
+
+    const exportMenuButton = document.getElementById('btn-export-menu');
+    const exportMenu = document.getElementById('export-menu');
+    const exportFullButton = document.getElementById('btn-export-full');
+    const exportPartsButton = document.getElementById('btn-export-parts');
+
+    if (exportMenuButton && exportMenu) {
+        exportMenuButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            exportMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', () => {
+            exportMenu.classList.add('hidden');
+        });
+
+        exportMenu.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+    }
+
+    if (exportFullButton && exportMenu) {
+        exportFullButton.addEventListener('click', async () => {
+            exportMenu.classList.add('hidden');
+            await exportarDashboard('full');
+        });
+    }
+
+    if (exportPartsButton && exportMenu) {
+        exportPartsButton.addEventListener('click', async () => {
+            exportMenu.classList.add('hidden');
+            await exportarDashboard('parts');
+        });
+    }
+
+    window.addEventListener('resize', () => scheduleMainTablesLayoutCheck());
 }
 
 function requestRefresh(source = 'manual') {
@@ -104,6 +141,43 @@ function destroyAllCharts() {
         const chart = Chart.getChart(canvas);
         if (chart) chart.destroy();
     });
+}
+
+function scheduleMainTablesLayoutCheck() {
+    if (tableLayoutRaf) {
+        cancelAnimationFrame(tableLayoutRaf);
+    }
+
+    tableLayoutRaf = requestAnimationFrame(() => {
+        tableLayoutRaf = null;
+        updateMainTablesLayout();
+    });
+}
+
+function updateMainTablesLayout() {
+    const mainTablesSection = document.getElementById('main-tables-section');
+    if (!mainTablesSection) return;
+
+    const wrappers = Array.from(mainTablesSection.querySelectorAll('.table-scroll'));
+    if (wrappers.length < 2) return;
+
+    if (window.innerWidth < 1024) {
+        mainTablesSection.classList.remove('two-cols');
+        return;
+    }
+
+    const minimumSectionWidthForTwoCols = 1360;
+    if (mainTablesSection.clientWidth < minimumSectionWidthForTwoCols) {
+        mainTablesSection.classList.remove('two-cols');
+        return;
+    }
+
+    mainTablesSection.classList.add('two-cols');
+    const hasOverflowInTwoCols = wrappers.some((wrapper) => wrapper.scrollWidth > wrapper.clientWidth + 1);
+
+    if (hasOverflowInTwoCols) {
+        mainTablesSection.classList.remove('two-cols');
+    }
 }
 
 function setRefreshState(loading) {
@@ -365,6 +439,7 @@ function renderDashboard(data) {
     renderTrends(data.historico_regional, data.metas.projeção, 'trend');
     renderTrends(data.afetacao_regional, data.metas.afetacao, 'afetTrend');
     renderDiarizado(data.diarizado);
+    scheduleMainTablesLayoutCheck();
 }
 
 // Funções Auxiliares (Donuts, AT, Trends, etc - Mantidas do backup otimizado)
@@ -644,13 +719,94 @@ function renderKpiCards(k) {
     f('cards-vale', k.vale); f('cards-litoral', k.litoral); f('cards-jundiai', k.jundiai);
 }
 
-async function exportarDashboard() {
-    const b = document.body; const ow = b.style.width; const omw = b.style.minWidth;
-    b.style.width = '1440px'; b.style.minWidth = '1440px';
+async function exportarDashboard(mode = 'full') {
+    if (mode === 'parts') {
+        await exportarDashboardEmPartes();
+        return;
+    }
+
+    await exportarDashboardPaginaUnica();
+}
+
+async function exportarDashboardPaginaUnica() {
+    const b = document.body;
+    const ow = b.style.width;
+    const omw = b.style.minWidth;
+
+    b.style.width = '1440px';
+    b.style.minWidth = '1440px';
     await new Promise(r => setTimeout(r, 500));
+
     try {
         const c = await html2canvas(b, { scale: 2, windowWidth: 1440, useCORS: true });
-        const l = document.createElement('a'); l.download = `Relatorio_Cluster_${new Date().toISOString().split('T')[0]}.png`;
-        l.href = c.toDataURL(); l.click();
-    } catch (e) { alert("Erro ao exportar."); } finally { b.style.width = ow; b.style.minWidth = omw; }
+        const l = document.createElement('a');
+        l.download = `Relatorio_Cluster_${new Date().toISOString().split('T')[0]}_completo.png`;
+        l.href = c.toDataURL();
+        l.click();
+    } catch (e) {
+        alert("Erro ao exportar.");
+    } finally {
+        b.style.width = ow;
+        b.style.minWidth = omw;
+    }
+}
+
+async function exportarDashboardEmPartes() {
+    const b = document.body;
+    const header = document.querySelector('header');
+    const sections = Array.from(document.querySelectorAll('main > section'));
+
+    if (!header || sections.length < 8) {
+        alert('Estrutura da página incompatível para exportação em partes.');
+        return;
+    }
+
+    const groups = [
+        [header, sections[0], sections[1]],
+        [header, sections[2], sections[3]],
+        [header, sections[4], sections[5], sections[6]],
+        [header, sections[7]],
+    ];
+
+    const allBlocks = [header, ...sections];
+    const ow = b.style.width;
+    const omw = b.style.minWidth;
+    const dateLabel = new Date().toISOString().split('T')[0];
+    const originalDisplay = new Map();
+
+    b.style.width = '1440px';
+    b.style.minWidth = '1440px';
+
+    try {
+        for (let index = 0; index < groups.length; index += 1) {
+            allBlocks.forEach((el) => {
+                if (!originalDisplay.has(el)) {
+                    originalDisplay.set(el, el.style.display);
+                }
+                el.style.display = 'none';
+            });
+
+            groups[index].forEach((el) => {
+                el.style.display = originalDisplay.get(el) ?? '';
+            });
+
+            window.scrollTo(0, 0);
+
+            await new Promise((resolve) => setTimeout(resolve, 450));
+
+            const canvas = await html2canvas(b, { scale: 2, windowWidth: 1440, useCORS: true });
+            const link = document.createElement('a');
+            link.download = `Relatorio_Cluster_${dateLabel}_parte_${index + 1}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    } catch (e) {
+        alert('Erro ao exportar em partes.');
+    } finally {
+        allBlocks.forEach((el) => {
+            el.style.display = originalDisplay.get(el) ?? '';
+        });
+        b.style.width = ow;
+        b.style.minWidth = omw;
+    }
 }

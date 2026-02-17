@@ -25,10 +25,23 @@
                 class="bg-[#0070c0] text-white px-6 py-2 rounded-sm font-black text-xs hover:bg-blue-700 shadow-md transition-all uppercase">
                 🔄 ATUALIZAR DADOS
             </button>
-            <button onclick="exportarDashboard()"
-                class="bg-white text-[#660099] px-6 py-2 rounded-sm font-black text-xs hover:bg-gray-100 shadow-md transition-all uppercase">
-                📸 Exportar Relatório
-            </button>
+            <div class="relative">
+                <button id="btn-export-menu"
+                    class="bg-white text-[#660099] px-6 py-2 rounded-sm font-black text-xs hover:bg-gray-100 shadow-md transition-all uppercase">
+                    📸 Exportar Relatório ▾
+                </button>
+                <div id="export-menu"
+                    class="hidden absolute right-0 mt-2 w-72 bg-white border border-gray-200 rounded shadow-lg z-50 overflow-hidden">
+                    <button id="btn-export-full"
+                        class="w-full text-left px-4 py-3 text-xs font-bold text-gray-800 hover:bg-gray-100 uppercase">
+                        Exportar tudo em uma página
+                    </button>
+                    <button id="btn-export-parts"
+                        class="w-full text-left px-4 py-3 text-xs font-bold text-gray-800 hover:bg-gray-100 uppercase border-t border-gray-100">
+                        Exportar em 4 partes
+                    </button>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -53,7 +66,7 @@
                     <tbody id="body-ability" class="font-bold text-[12px]"></tbody>
                 </table>
             </div>
-            <div class="overflow-x-auto table-scroll mt-4">
+            <div class="overflow-x-auto table-scroll">
                 <table class="w-full border-collapse dashboard-table">
                     <thead>
                         <tr class="bg-[#0070c0] text-white uppercase italic text-[12px]">
@@ -191,7 +204,7 @@
 
     </main>
 
-    <script src="js/app.js?v=20260217-3"></script>
+    <script src="js/app.js?v=20260217-5"></script>
 </body>
 
 </html>
